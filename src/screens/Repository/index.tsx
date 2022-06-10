@@ -38,7 +38,7 @@ export function Repository() {
 
   function handleIssueNavigation(issueUrl: string) {
     // TODO - use Linking to open issueUrl in a browser
-
+    Linking.openURL(issueUrl);
   }
 
   return (
