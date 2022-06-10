@@ -1,12 +1,12 @@
 import styled from 'styled-components/native';
-import { Feather} from '@expo/vector-icons'
+import { Feather } from '@expo/vector-icons'
 import { TextInput, FlatList, FlatListProps } from 'react-native';
 import { RepositoryProps } from '../../contexts/RepositoriesProvider';
 
 export const Container = styled.View`
   flex: 1;
 
-  margin-top: 100px;
+  margin-top: 15px;
   padding: 0 20px;
 `;
 

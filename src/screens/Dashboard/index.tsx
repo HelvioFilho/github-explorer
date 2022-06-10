@@ -1,10 +1,12 @@
 import { useNavigation } from '@react-navigation/core';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useRef, useState } from 'react';
-import { TextInput } from 'react-native';
+import { Keyboard, TextInput } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 import { Background } from '../../components/Background';
 import { Card } from '../../components/Card';
+import { Header } from '../../components/Header';
 
 import { useRepositories } from '../../hooks/useRepositories';
 
@@ -60,59 +62,64 @@ export function Dashboard() {
 
   return (
     <Background>
+      <Header />
       <Container>
-        <AddGithubRepo>
-          <Title>Explore repositórios{'\n'}no GitHub.</Title>
+        <TouchableWithoutFeedback
+          onPress={() => Keyboard.dismiss()}
+        >
+          <AddGithubRepo>
+            <Title>Explore repositórios{'\n'}no GitHub.</Title>
 
-          <Input>
-            <InputField
-              ref={inputRef}
-              placeholder="Digite aqui 'usuário/repositório'"
-              value={inputText}
-              /**
-               * TODO - update inputText value when input text value 
-               * changes:
-               * onChangeText={YOUR CODE HERE}
-               */
-              onChangeText={setInputText}
-              onSubmitEditing={handleAddRepository}
-              returnKeyType="send"
-              autoCapitalize='none'
-              autoCorrect={false}
-            />
+            <Input>
+              <InputField
+                ref={inputRef}
+                placeholder="Digite aqui 'usuário/repositório'"
+                value={inputText}
+                /**
+                 * TODO - update inputText value when input text value 
+                 * changes:
+                 * onChangeText={YOUR CODE HERE}
+                 */
+                onChangeText={setInputText}
+                onSubmitEditing={handleAddRepository}
+                returnKeyType="send"
+                autoCapitalize='none'
+                autoCorrect={false}
+              />
 
-            <InputButton
-              testID="input-button"
-              onPress={handleAddRepository}
-              /**
-               * TODO - ensure to disable button when inputText is 
-               * empty (use disabled prop to this):
-               * disabled={CONDITION HERE}
-               */
-              disabled={!inputText}
-            >
-              <Icon name="search" size={20} />
-            </InputButton>
-          </Input>
-        </AddGithubRepo>
+              <InputButton
+                testID="input-button"
+                onPress={handleAddRepository}
+                /**
+                 * TODO - ensure to disable button when inputText is 
+                 * empty (use disabled prop to this):
+                 * disabled={CONDITION HERE}
+                 */
+                disabled={!inputText}
+              >
+                <Icon name="search" size={20} />
+              </InputButton>
+            </Input>
+          </AddGithubRepo>
 
-        <RepositoriesList
-          data={repositories}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={repository => String(repository.id)}
-          renderItem={({ item: repository }) => (
-            <Card
-              key={repository.id}
-              data={{
-                id: repository.id,
-                title: repository.full_name,
-                subTitle: repository.description,
-                imageUrl: repository.owner.avatar_url
-              }}
-              onPress={() => handleRepositoryPageNavigation(repository.id)}
-            />
-          )}
-        />
+          <RepositoriesList
+            data={repositories}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={repository => String(repository.id)}
+            renderItem={({ item: repository }) => (
+              <Card
+                key={repository.id}
+                data={{
+                  id: repository.id,
+                  title: repository.full_name,
+                  subTitle: repository.description,
+                  imageUrl: repository.owner.avatar_url
+                }}
+                onPress={() => handleRepositoryPageNavigation(repository.id)}
+              />
+            )}
+          />
+        </TouchableWithoutFeedback>
       </Container>
     </Background>
   )
