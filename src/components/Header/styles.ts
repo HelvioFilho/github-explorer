@@ -5,7 +5,7 @@ import { Platform } from 'react-native';
 export const SafeAreaViewIOS = styled.SafeAreaView``;
 
 export const Container = styled.View`
-  padding: ${() => Platform.OS === 'android' ? '30px 20px' : '15px 20px'};
+  padding: ${() => Platform.OS === 'android' ? '35px 20px' : '15px 20px'};
 
   flex-direction: row;
   justify-content: space-between;
