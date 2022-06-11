@@ -9,7 +9,10 @@ export default {
     gray_700: '#41414d',
     gray_800: '#3A3A3A',
 
-    green_200: '#04d361'
+    green_200: '#04d361',
+    green_500: '#03B252',
+
+    red_500: '#DC1637',
   },
 
   fonts: {
