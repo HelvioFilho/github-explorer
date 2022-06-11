@@ -5,8 +5,22 @@
     "name": "github-explorer",
     "slug": "github-explorer",
     "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "splash": {
+      "image": "./assets/splash.png",
+      "backgroundColor": "#FFFFFF"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "description": "Application that consumes the github API and displays information from any public repository by searching for user/repository-name",
+    "githubUrl": "https://github.com/HelvioFilho/github-explorer"
   }
 }

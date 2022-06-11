@@ -2,10 +2,11 @@ import styled from 'styled-components/native';
 import { Feather } from '@expo/vector-icons'
 import { TextInput, FlatList, FlatListProps } from 'react-native';
 import { RepositoryProps } from '../../contexts/RepositoriesProvider';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 export const Container = styled.View`
   flex: 1;
-
+  height: ${RFPercentage(100)}px;
   margin-top: 15px;
   padding: 0 20px;
 `;

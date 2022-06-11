@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/core';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useRef, useState } from 'react';
-import { Keyboard, TextInput } from 'react-native';
+import { Keyboard, TextInput, View } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 import { Background } from '../../components/Background';
@@ -38,14 +38,18 @@ export function Dashboard() {
 
   const { addRepository, repositories } = useRepositories();
 
-  function handleAddRepository() {
+  async function handleAddRepository() {
     /**
      * TODO: 
      * - call addRepository function sending inputText value;
      * - clean inputText value.
      */
-    addRepository(inputText);
+    const data = await addRepository(inputText);
     setInputText("");
+    if (data.error === true) {
+      console.log("olá")
+    }
+
   }
 
   function handleRepositoryPageNavigation(id: number) {
@@ -62,10 +66,12 @@ export function Dashboard() {
 
   return (
     <Background>
+
       <Header />
       <Container>
         <TouchableWithoutFeedback
           onPress={() => Keyboard.dismiss()}
+        // style={{ flex: 1, marginTop: 15, paddingHorizontal: 20 }}
         >
           <AddGithubRepo>
             <Title>Explore repositórios{'\n'}no GitHub.</Title>
