@@ -1,5 +1,4 @@
 import React, { createContext, useState } from 'react';
-import { Alert } from 'react-native';
 
 import { api } from '../services/api';
 
@@ -27,9 +26,16 @@ export interface RepositoryProps {
   issues: IssueProps[]
 }
 
+export interface ResponseProps {
+  error: boolean;
+  title?: string;
+  message?: string;
+  height?: number;
+}
+
 interface RepositoriesContextData {
   repositories: RepositoryProps[];
-  addRepository: (repositoryName: string) => void;
+  addRepository: (repositoryName: string) => Promise<ResponseProps>;
   removeRepository: (repositoryId: number) => void;
   findRepositoryById: (repositoryId: number) => RepositoryProps;
 }
@@ -45,13 +51,15 @@ function RepositoriesProvider({ children }: RepositoriesProviderProps) {
 
   async function addRepository(repositoryName: string) {
     try {
-      const repoAlreadyExists = repositories.find(repository => repository.full_name === repositoryName);
-
+      const repoAlreadyExists = repositories.find(repository => { return repository.full_name.toLowerCase() === repositoryName.toLowerCase() });
       if (repoAlreadyExists) {
-        return Alert.alert(
-          "Erro ao cadastrar repositório",
-          "Esse repositório já está cadastrado."
-        );
+
+        return {
+          error: true,
+          title: "Erro",
+          message: "Esse repositório já está cadastrado.",
+          height: 160,
+        }
       }
 
       const response = await api.get<RepositoryProps>(`repos/${repositoryName}`);
@@ -60,11 +68,16 @@ function RepositoriesProvider({ children }: RepositoriesProviderProps) {
         ...response.data,
         issues
       }]);
-    } catch (error) {
-      Alert.alert(
-        "Erro",
-        "Ocorreu um erro ao buscar pelo repositório. Verifique a sua conexão e o nome do repositório e tente novamente."
-      )
+      return {
+        error: false
+      }
+    } catch {
+      return {
+        error: true,
+        title: "Erro",
+        message: "Ocorreu um erro ao buscar pelo repositório. Verifique a sua conexão ou o nome do repositório e tente novamente.",
+        height: 200,
+      }
     }
   }
 
