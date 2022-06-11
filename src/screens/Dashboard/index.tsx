@@ -1,12 +1,14 @@
 import { useNavigation } from '@react-navigation/core';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useRef, useState } from 'react';
-import { Keyboard, TextInput, View } from 'react-native';
+import { Keyboard, Modal, TextInput } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { useTheme } from 'styled-components';
 
 import { Background } from '../../components/Background';
 import { Card } from '../../components/Card';
 import { Header } from '../../components/Header';
+import { WarningModal } from '../../components/WarningModal';
 
 import { useRepositories } from '../../hooks/useRepositories';
 
@@ -28,10 +30,27 @@ type RootStackParamList = {
   }
 };
 
+interface ButtonProps {
+  title: string;
+  color: string;
+  close: boolean;
+}
+
+interface AlertProps {
+  title: string;
+  message: string;
+  height: number;
+}
+
 type NavigationProps = StackNavigationProp<RootStackParamList, 'Dashboard'>;
 
 export function Dashboard() {
   const [inputText, setInputText] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [button, setButton] = useState({} as ButtonProps);
+  const [alert, setAlert] = useState({} as AlertProps);
+
+  const theme = useTheme();
   const inputRef = useRef<TextInput>(null);
 
   const { navigate } = useNavigation<NavigationProps>();
@@ -39,28 +58,17 @@ export function Dashboard() {
   const { addRepository, repositories } = useRepositories();
 
   async function handleAddRepository() {
-    /**
-     * TODO: 
-     * - call addRepository function sending inputText value;
-     * - clean inputText value.
-     */
     const data = await addRepository(inputText);
     setInputText("");
     if (data.error === true) {
-      console.log("olá")
+      setAlert({ title: data.title!, message: data.message!, height: data.height! });
+      setButton({ title: "ok", color: theme.colors.green_500, close: true });
+      setVisible(true);
     }
 
   }
 
   function handleRepositoryPageNavigation(id: number) {
-    /**
-     * TODO - navigate to the Repository screen sending repository id.
-     * Remember to use the correct prop name (repositoryId) to the repositoy id:
-     * 
-     * navigate(SCREEN NAME, {
-     *  repositoryId: id of the repository
-     * })
-     */
     navigate("Repository", { repositoryId: id });
   }
 
@@ -71,7 +79,6 @@ export function Dashboard() {
       <Container>
         <TouchableWithoutFeedback
           onPress={() => Keyboard.dismiss()}
-        // style={{ flex: 1, marginTop: 15, paddingHorizontal: 20 }}
         >
           <AddGithubRepo>
             <Title>Explore repositórios{'\n'}no GitHub.</Title>
@@ -81,11 +88,6 @@ export function Dashboard() {
                 ref={inputRef}
                 placeholder="Digite aqui 'usuário/repositório'"
                 value={inputText}
-                /**
-                 * TODO - update inputText value when input text value 
-                 * changes:
-                 * onChangeText={YOUR CODE HERE}
-                 */
                 onChangeText={setInputText}
                 onSubmitEditing={handleAddRepository}
                 returnKeyType="send"
@@ -96,11 +98,6 @@ export function Dashboard() {
               <InputButton
                 testID="input-button"
                 onPress={handleAddRepository}
-                /**
-                 * TODO - ensure to disable button when inputText is 
-                 * empty (use disabled prop to this):
-                 * disabled={CONDITION HERE}
-                 */
                 disabled={!inputText}
               >
                 <Icon name="search" size={20} />
@@ -127,6 +124,21 @@ export function Dashboard() {
           />
         </TouchableWithoutFeedback>
       </Container>
+      <Modal
+        animationType="fade"
+        transparent
+        visible={visible}
+        onRequestClose={() => setVisible(false)}
+      >
+        <WarningModal
+          title={alert.title}
+          height={alert.height}
+          message={alert.message}
+          button={[button]}
+          closeModal={() => setVisible(false)}
+          primaryFunction={() => { }}
+        />
+      </Modal>
     </Background>
   )
 }
