@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import LottieView from 'lottie-react-native';
 
 import logoGitHub from '../../assets/splashLogo.json';
-import explore from '../../assets/githubExplorer.json';
 
 import { Container } from './styles';
 import { StatusBar } from 'react-native';
