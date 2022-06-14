@@ -42,15 +42,11 @@ export const InputButton = styled.TouchableOpacity.attrs({
   activeOpacity: 0.7
 })`
   background-color: ${({ theme }) => theme.colors.green_200};
-  padding: 16px;
+  
   opacity: ${({ disabled }) => disabled ? 0.5 : 1};
 
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-`;
-
-export const Icon = styled(Feather)`
-  color: ${({ theme }) => theme.colors.white};
 `;
 
 export const RepositoriesList = styled(
