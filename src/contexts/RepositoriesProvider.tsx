@@ -56,7 +56,7 @@ function RepositoriesProvider({ children }: RepositoriesProviderProps) {
 
         return {
           error: true,
-          title: "Erro",
+          title: "Aviso",
           message: "Esse repositório já está cadastrado.",
           height: 160,
         }
@@ -74,7 +74,7 @@ function RepositoriesProvider({ children }: RepositoriesProviderProps) {
     } catch {
       return {
         error: true,
-        title: "Erro",
+        title: "Aviso",
         message: "Ocorreu um erro ao buscar pelo repositório. Verifique a sua conexão ou o nome do repositório e tente novamente.",
         height: 200,
       }

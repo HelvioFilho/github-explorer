@@ -67,7 +67,7 @@ export function Dashboard() {
       if (await delay()) {
         animationSearch.current?.reset();
       }
-    }, 5000);
+    }, 4500);
   }
 
   async function delay() {
@@ -98,7 +98,7 @@ export function Dashboard() {
                 ref={inputRef}
                 placeholder="Digite aqui 'usuário/repositório'"
                 value={inputText}
-                onChangeText={setInputText}
+                onChangeText={text => setInputText(text.replace(/\s+/g, ''))}
                 onSubmitEditing={handleAddRepository}
                 returnKeyType="send"
                 autoCapitalize='none'
